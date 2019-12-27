@@ -54,6 +54,12 @@ export type OnDragEndResponder = (
     provided: ResponderProvided,
 ) => void;
 
+export type DraggableChildrenFn = (
+    provided: DraggableProvided,
+    snapshot: DraggableStateSnapshot,
+    rubric: DraggableRubric,
+) => Node | null;
+
 export interface Responders {
     onBeforeCapture?: OnBeforeCaptureResponder;
     onBeforeDragStart?: OnBeforeDragStartResponder;
@@ -129,6 +135,7 @@ export interface DroppableProps {
     isDropDisabled?: boolean;
     isCombineEnabled?: boolean;
     direction?: 'vertical' | 'horizontal';
+    renderClone?: DraggableChildrenFn;
     children(provided: DroppableProvided, snapshot: DroppableStateSnapshot): React.ReactElement<HTMLElement>;
 }
 
@@ -184,6 +191,12 @@ export interface DraggableProvided {
     // will be removed after move to react 16
     innerRef(element?: HTMLElement | null): any;
     placeholder?: React.ReactElement<HTMLElement> | null;
+}
+
+export interface DraggableRubric {
+    draggableId: DraggableId;
+    type: TypeId;
+    source: DraggableLocation;
 }
 
 export interface DraggableStateSnapshot {
